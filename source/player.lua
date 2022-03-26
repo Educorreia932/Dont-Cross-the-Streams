@@ -1,4 +1,5 @@
 import "rooms"
+import "soundeffects"
 
 local pd <const> = playdate
 local gfx <const> = pd.graphics
@@ -44,6 +45,7 @@ function Player:movement()
     if block == ACTIVE_PORTAL then
         local portal = find_portal(new_x, new_y)
         print(portal)
+        playPortalSound()
 
         self.x = portal.twin.x - 1
         self.y = portal.twin.y
