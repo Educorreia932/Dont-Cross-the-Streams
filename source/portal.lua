@@ -1,26 +1,29 @@
 local pd <const> = playdate
 local gfx <const> = pd.graphics
 
-function class()
-    return setmetatable({}, {
-        __call = function(self, ...)
-            self:init(...)
-            return self
-        end
-    })
-end
+Portal = {}
+Portal.__index = Portal
 
-Portal = class()
+function Portal:new(x, y, twin)
+    local portal = {}
+    setmetatable(portal, Portal)
 
-function Portal:init(x, y)
-    self.x = x
-    self.y = y
+    portal.x = x
+    portal.y = y
+    portal.twin = twin
+
+    return portal
 end
 
 function Portal:render()
     local image = gfx.image.new("images/portal1.png")
-	sprite = gfx.sprite.new(image)
+	local sprite = gfx.sprite.new(image)
 
 	sprite:moveTo(self.x, self.y)
 	sprite:add()
+end
+
+function Portal:setTwin(twin)
+    self.twin = twin
+    twin.twin = self
 end

@@ -12,18 +12,14 @@ import "portal"
 local gfx <const> = playdate.graphics
 
 local function initalize()
-	math.randomseed(playdate.getSecondsSinceEpoch())
-	portal = Portal(256, 128)
-
-	portal:render()
-	player_render()
+	player = Player:new(11, 4)
 	background_render()
 end
 
 initalize()
 
 function playdate.update()
-	player_movement()
+	player:movement()
 
 	gfx.sprite.update()
 end

@@ -1,14 +1,20 @@
+import "const"
+import "portal"
+
 local pd <const> = playdate
 local gfx <const> = pd.graphics
 
 local map = {}
 local rooms = {
-    4,
-    {24, 24, 144, 128}, --startposition(x,y), width, height
-    {256, 24, 96, 112},
-    {160, 96, 144, 144},
-    {256, 160, 112, 112}
+    {10, 2, 3, 4}
 }
+
+local portals = {
+    Portal:new(256, 128),
+    Portal:new(128, 128)
+}
+
+portals[1]:setTwin(portals[2])
 
 function background_render()
     map_render()
@@ -24,10 +30,10 @@ function background_render()
 end
 
 function detect_collision(x, y, direction)   
-    if (direction == "up" and y - screen.tileSize >= 0 and map[x][y - screen.tileSize] == 1)
-    or (direction == "down" and y + screen.tileSize <= screen.height and map[x][y + screen.tileSize] == 1)
-    or (direction == "right" and x + screen.tileSize <= screen.width and map[x + screen.tileSize][y] == 1)
-    or (direction == "left" and x - screen.tileSize >= 0 and map[x - screen.tileSize][y] == 1) then
+    if (direction == "up" and y - 1 >= 0 and map[x][y - 1] == 1)
+    or (direction == "down" and y + 1 <= screen.height / screen.tileSize and map[x][y + 1] == 1)
+    or (direction == "right" and x + 1 <= screen.width / screen.tileSize and map[x + 1][y] == 1)
+    or (direction == "left" and x - 1 >= 0 and map[x - 1][y] == 1) then
         return true
     end
 
@@ -37,13 +43,14 @@ end
 function map_render()
     for i=1, screen.width do
         map[i] = {}
+        
         for j=1, screen.height do
             map[i][j] = 0
         end
     end
 
-    --mark walls
-    for i=2, rooms[1] do
+    --Mark walls
+    for i = 1, #rooms do
         local room = rooms[i]
         local startX = room[1]
         local startY = room[2]
@@ -54,10 +61,20 @@ function map_render()
             map[i][startY] = 1
             map[i][endY] = 1
         end
+
         for i=startY, endY do
            map[startX][i] = 1
            map[endX][i] = 1
         end
+    end
+
+    -- Mark portals
+    for i = 1, #portals do
+        local portal = portals[i]
+        local x = portal.x
+        local y = portal.y
+
+        map[x][y] = ACTIVE_PORTAL
     end
 end
 
