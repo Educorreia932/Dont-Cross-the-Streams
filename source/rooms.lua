@@ -118,24 +118,12 @@ function map_render()
     -- Mark portals
     for i = 1, #portals do
         local portal = portals[i]
-        local x1 = portal.x
-        local y1 = portal.y
-        local x2 = portal.twin.x
-        local y2 = portal.twin.y
+        local x = portal.x
+        local y = portal.y
 
-        map[x1][y1] = ACTIVE_PORTAL
-
-        local points = {
-            x1, 
-            y1,
-
-            x2, 
-            y2,
-        }
-
-        printTable(points)
-
-        streams[i] = points
+        map[x][y] = ACTIVE_PORTAL
+        streams[i] = Stream:new(portal, portal.twin)
+        
     end
 end
 

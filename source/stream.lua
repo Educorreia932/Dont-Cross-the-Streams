@@ -1,13 +1,31 @@
+import "const"
+
 local pd <const> = playdate
 local gfx <const> = pd.graphics
 
 Stream = {}
-Stream.__index = Stream
 
-function Stream:getCurvePoints(ptsa, tension, numOfSegments)
-	-- use input value if provided, or use a default value	 
-	tension = tension or 0.5
-	numOfSegments = numOfSegments or 16
+function Stream:new(portal_1, portal_2)
+    local stream = {}
+    setmetatable(stream, self)
+    self.__index = self
+
+    stream.portal_1 = portal_1
+    stream.portal_2 = portal_2
+    stream.points = stream:getCurvePoints()
+
+    return stream
+end
+
+function Stream:getCurvePoints()
+    ptsa = {
+        self.portal_1.x,
+        self.portal_1.y,
+        self.portal_2.x,
+        self.portal_2.y,
+    }
+	tension = 0.5
+	numOfSegments = 16
 
 	local _pts
     local res = {}			--/ clone array
@@ -78,4 +96,17 @@ function Stream:getCurvePoints(ptsa, tension, numOfSegments)
 	end
 	
 	return res
+end
+
+function Stream:draw()
+	gfx.setColor(gfx.kColorWhite) -- TODO: Why isn't XOR working?
+
+    for i = 1, #self.points - 4, 2 do
+        gfx.drawLine(
+            self.points[i] * screen.tileSize, 
+            self.points[i + 1] * screen.tileSize, 
+            self.points[i + 2] * screen.tileSize, 
+            self.points[i + 3] * screen.tileSize
+        )
+    end
 end
