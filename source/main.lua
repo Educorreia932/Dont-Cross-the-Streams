@@ -24,7 +24,7 @@ end
 initalize()
 
 function playdate.update()
-	player:movement()
+	player:update()
 
 	gfx.setDrawOffset(-camera_offset.x.value, -camera_offset.y.value)
 

@@ -5,7 +5,7 @@ local gfx <const> = pd.graphics
 Portal = {}
 Portal.__index = Portal
 
-function Portal:new(x, y, vertical, direction)
+function Portal:new(x, y, vertical, player_direction, rune_direction, i)
     local portal = {}
     setmetatable(portal, Portal)
 
@@ -18,23 +18,27 @@ function Portal:new(x, y, vertical, direction)
     portal.x = x
     portal.y = y
     portal.twin = twin
+    portal.rune = Rune:new(
+        portal.x + rune_direction[1],
+        portal.y + rune_direction[2],
+        i,
+        portal
+    )
+    portal.player_direction = {
+        x = player_direction[1], 
+        y = player_direction[2]
+    }
+    portal.rune_direction = {
+        x = rune_direction[1], 
+        y = rune_direction[2]
+    }
 
-    portal.sprite = AnimatedSprite.new(image_table)
-    portal.sprite:moveTo(portal.x * screen.tileSize, portal.y * screen.tileSize)
-    portal.sprite:addState("idle", nil, nil, {tickStep = 5}) 
-    portal.sprite:playAnimation()
-	portal.sprite:add()
-    portal.offset = {0, 0}
+    local sprite = AnimatedSprite.new(image_table)
 
-    if direction == "up" then
-        portal.offset = {0, -1}
-    elseif direction == "down" then
-        portal.offset = {0, 1}
-    elseif direction == "left" then
-        portal.offset = {-1, 0}
-    elseif direction == "right" then
-        portal.offset = {1, 0}
-    end
+    sprite:moveTo(portal.x * screen.tileSize, portal.y * screen.tileSize)
+    sprite:addState("idle", nil, nil, {tickStep = 5}) 
+    sprite:playAnimation()
+	sprite:add()
 
     return portal
 end

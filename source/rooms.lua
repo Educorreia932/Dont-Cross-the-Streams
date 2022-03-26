@@ -14,25 +14,14 @@ local rooms = {
 backgroundImage = gfx.image.new("images/lvl1_map")
 
 portals = {
-    Portal:new(14, 4, false, "left"),
-    Portal:new(6, 12, true, "up"),
-    Portal:new(12, 25, false, "right"),
-    Portal:new(24, 25, false, "left"),
-    Portal:new(36, 25, false, "right"),
-    Portal:new(40, 20, true, "down"),
-    Portal:new(39, 10, true, "up"),
-    Portal:new(35, 5, false, "right")
-}
-
-runes = {
-    Rune:new(14, 5, 1),
-    Rune:new(7, 12, 2),
-    Rune:new(12, 26, 3),
-    Rune:new(24, 26, 4),
-    Rune:new(36, 26, 5),
-    Rune:new(41, 20, 6),
-    Rune:new(40, 10, 7),
-    Rune:new(35, 6, 8)
+    Portal:new(14, 4, false, {-1, 0}, {0, 1}, 1),
+    Portal:new(6, 12, true, {0, -1}, {1, 0}, 2),
+    Portal:new(12, 25, false, {1, 0}, {0, 1}, 3),
+    Portal:new(24, 25, false, {-1, 0}, {0, 1}, 4),
+    Portal:new(36, 25, false, {1, 0}, {0, 1}, 5),
+    Portal:new(40, 20, true, {0, 1}, {1, 0}, 6),
+    Portal:new(39, 10, true, {0, -1}, {1, 0}, 7),
+    Portal:new(35, 5, false, {1, 0}, {0, 1}, 8)
 }
 
 portals[1].twin = portals[3]
@@ -123,7 +112,6 @@ function map_render()
 
         map[x][y] = ACTIVE_PORTAL
         streams[i] = Stream:new(portal, portal.twin)
-        
     end
 end
 
