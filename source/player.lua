@@ -1,3 +1,5 @@
+import "rooms"
+
 local pd <const> = playdate
 local gfx <const> = pd.graphics
 
@@ -37,7 +39,10 @@ function Player:movement()
     local block = detect_collision(new_x, new_y)
 
     if block == ACTIVE_PORTAL then
-        self.x = portal.twin.x
+        local portal = find_portal(new_x, new_y)
+        print(portal)
+
+        self.x = portal.twin.x - 1
         self.y = portal.twin.y
     elseif block ~= WALL then
         self.x = new_x

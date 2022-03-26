@@ -11,8 +11,12 @@ local rooms = {
 }
 
 local portals = {
-    Portal:new(14, 4)
+    Portal:new(14, 4),
+    Portal:new(10, 4),
 }
+
+portals[1].twin = portals[2]
+portals[2].twin = portals[1]
 
 function background_render()
     map_render()
@@ -88,5 +92,15 @@ function map_render()
         local y = portal.y
 
         map[x][y] = ACTIVE_PORTAL
+    end
+end
+
+function find_portal(x, y)
+    for i = 1, #portals do
+        local portal = portals[i]
+
+        if portal.x == x and portal.y == y then
+            return portal
+        end
     end
 end

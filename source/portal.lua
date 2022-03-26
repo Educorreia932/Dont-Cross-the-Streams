@@ -12,8 +12,8 @@ function Portal:new(x, y, twin)
     portal.y = y
     portal.twin = twin
 
-    local image = gfx.image.new("images/portal1.png")
-    
+    local image = gfx.image.new("images/portal_idle1.png")
+
 	portal.sprite = gfx.sprite.new(image)
     portal.sprite:moveTo(portal.x * screen.tileSize, portal.y * screen.tileSize)
 	portal.sprite:add()
