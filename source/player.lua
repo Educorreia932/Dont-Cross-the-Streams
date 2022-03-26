@@ -63,10 +63,15 @@ end
 function Player:interact() 
     for i=1, #portals do
         local portal = portals[i]
-        local rune = portal.rune
 
-        if rune.x + portal.player_direction.x == self.x and rune.y + portal.player_direction.y == self.y then
-            print("Interacting...")
+        if portal.rune ~= nil then
+            local rune = portal.rune
+
+            if rune.x + portal.player_direction.x == self.x and rune.y + portal.player_direction.y == self.y then
+                player.holding_rune = rune
+
+                rune:remove()
+            end
         end
     end
 end

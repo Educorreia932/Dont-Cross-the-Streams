@@ -21,3 +21,8 @@ function Rune:new(x, y, i, portal)
 
     return rune
 end
+
+function Rune:remove()
+    self.portal.rune = nil
+    self.sprite:remove()
+end

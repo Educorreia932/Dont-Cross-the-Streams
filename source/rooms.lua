@@ -14,24 +14,20 @@ local rooms = {
 backgroundImage = gfx.image.new("images/lvl1_map")
 
 portals = {
-    Portal:new(14, 4, false, {-1, 0}, {0, 1}, 1),
-    Portal:new(6, 12, true, {0, -1}, {1, 0}, 2),
-    Portal:new(12, 25, false, {1, 0}, {0, 1}, 3),
-    Portal:new(24, 25, false, {-1, 0}, {0, 1}, 4),
-    Portal:new(36, 25, false, {1, 0}, {0, 1}, 5),
-    Portal:new(40, 20, true, {0, 1}, {1, 0}, 6),
-    Portal:new(39, 10, true, {0, -1}, {1, 0}, 7),
-    Portal:new(35, 5, false, {1, 0}, {0, 1}, 8)
+    Portal:new(14, 4, {-1, 0}, {0, 1}, 1),
+    Portal:new(6, 12, {0, -1}, {1, 0}, 2),
+    Portal:new(12, 25, {1, 0}, {0, 1}, 3),
+    Portal:new(24, 25, {-1, 0}, {0, 1}, 4),
+    Portal:new(36, 25, {1, 0}, {0, 1}, 5),
+    Portal:new(40, 20, {0, 1}, {1, 0}, 6),
+    Portal:new(39, 10, {0, -1}, {1, 0}, 7),
+    Portal:new(35, 5, {1, 0}, {0, 1}, 8)
 }
 
-portals[1].twin = portals[3]
-portals[2].twin = portals[5]
-portals[3].twin = portals[1]
-portals[4].twin = portals[7]
-portals[5].twin = portals[2]
-portals[6].twin = portals[8]
-portals[7].twin = portals[4]
-portals[8].twin = portals[6]
+portals[1]:setTwin(portals[3])
+portals[2]:setTwin(portals[5])
+portals[4]:setTwin(portals[7])
+portals[6]:setTwin(portals[8])
 
 streams = {}
 

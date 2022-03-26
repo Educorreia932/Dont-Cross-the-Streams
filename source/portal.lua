@@ -5,15 +5,9 @@ local gfx <const> = pd.graphics
 Portal = {}
 Portal.__index = Portal
 
-function Portal:new(x, y, vertical, player_direction, rune_direction, i)
+function Portal:new(x, y, player_direction, rune_direction, i)
     local portal = {}
     setmetatable(portal, Portal)
-
-    if vertical then
-        image_table = gfx.imagetable.new("images/portal")
-    else
-        image_table = gfx.imagetable.new("images/portal-horizontal")
-    end
 
     portal.x = x
     portal.y = y
@@ -33,6 +27,13 @@ function Portal:new(x, y, vertical, player_direction, rune_direction, i)
         y = rune_direction[2]
     }
 
+    -- Set portal orientation
+    if portal.player_direction.x == 0 then
+        image_table = gfx.imagetable.new("images/portal")
+    else
+        image_table = gfx.imagetable.new("images/portal-horizontal")
+    end
+
     local sprite = AnimatedSprite.new(image_table)
 
     sprite:moveTo(portal.x * screen.tileSize, portal.y * screen.tileSize)
@@ -43,4 +44,8 @@ function Portal:new(x, y, vertical, player_direction, rune_direction, i)
     return portal
 end
 
+function Portal:setTwin(portal)
+    self.twin = portal
+    portal.twin = self
+end
 
