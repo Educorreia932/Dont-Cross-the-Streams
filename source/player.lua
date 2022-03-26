@@ -21,6 +21,6 @@ end
 function player_render()
     local playerImage = gfx.image.new("images/player")
 	playerSprite = gfx.sprite.new(playerImage)
-	playerSprite:moveTo(200, 120)
+	playerSprite:moveTo(160, 160)
 	playerSprite:add()
 end
