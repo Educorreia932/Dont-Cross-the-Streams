@@ -40,11 +40,9 @@ function Player:movement()
 
     local block = detect_collision(new_x, new_y)
 
-    print(self.x, self.y)
-
     if block == ACTIVE_PORTAL then
         local portal = find_portal(new_x, new_y)
-        print(portal)
+
         playPortalSound()
 
         self.x = portal.twin.x - 1
@@ -52,10 +50,6 @@ function Player:movement()
     elseif block ~= WALL then
         self.x = new_x
         self.y = new_y
-    end
-
-    if camera_offset.x.free_roam or camera_offset.y.free_roam then
-        self.sprite:moveTo(screen.tileSize * self.x, screen.tileSize * self.y)
     end
 
     camera_movement()

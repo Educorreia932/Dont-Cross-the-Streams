@@ -7,18 +7,19 @@ local gfx <const> = pd.graphics
 
 local map = {}
 local rooms = {
-
+    {3, 2, 6, 10},
+    {9, 2, 5, 5}
 }
 
 portals = {
     Portal:new(14, 4, false),
     Portal:new(6, 12, true),
-    Portal:new(26, 13, false),
-    Portal:new(26, 13, false),
-    Portal:new(26, 38, false),
-    Portal:new(21, 42, true),
-    Portal:new(20, 31, true),
-    Portal:new(16, 26, false)
+    Portal:new(12, 25, false),
+    Portal:new(24, 25, false),
+    Portal:new(36, 25, false),
+    Portal:new(40, 20, true),
+    Portal:new(39, 10, true),
+    Portal:new(35, 5, false)
 }
 
 runes = {
@@ -31,7 +32,14 @@ runes = {
     Rune:new(14, 5, 7)
 }
 
-portals[1]:setTwin(portals[2])
+portals[1].twin = portals[3]
+portals[2].twin = portals[5]
+portals[3].twin = portals[1]
+portals[4].twin = portals[7]
+portals[5].twin = portals[2]
+portals[6].twin = portals[8]
+portals[7].twin = portals[4]
+portals[8].twin = portals[6]
 
 camera_offset = {
     x = {
@@ -46,6 +54,9 @@ camera_offset = {
 
 function background_render()
     map_render()
+
+
+    
 end
 
 function detect_collision(x, y)   
@@ -123,25 +134,8 @@ function find_portal(x, y)
 end
 
 function camera_movement()
-    camera_offset.x.value = player.x * screen.tileSize
-    camera_offset.y.value = player.y * screen.tileSize
-
-    -- if camera_offset.x.value >= 352 or camera_offset.x.value < 0 then
-    --     camera_offset.x.free_roam = true
-    --     if (camera_offset.x.value > 352) then camera_offset.x.value = 352 end
-    --     if (camera_offset.x.value < 0) then camera_offset.x.value = 0 end
-    -- else 
-    --     camera_offset.x.free_roam = false 
-    -- end
-
-    -- camera_offset.y.value = player.y*screen.tileSize
-    -- if camera_offset.y.value >= 240 or camera_offset.y.value < 0 then
-    --     camera_offset.y.free_roam = true
-    --     if (camera_offset.y.value > 240) then camera_offset.y.value = 240 end
-    --     if (camera_offset.y.value < 0) then camera_offset.y.value = 0 end
-    -- else 
-    --     camera_offset.y.free_roam = false 
-    -- end
+    camera_offset.x.value = (player.x - 10) * screen.tileSize
+    camera_offset.y.value = (player.y - 5) * screen.tileSize
 
     local backgroundImage = gfx.image.new("images/lvl1_map")
 
