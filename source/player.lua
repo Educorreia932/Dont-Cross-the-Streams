@@ -45,8 +45,8 @@ function Player:movement()
 
         playPortalSound()
 
-        self.x = portal.twin.x - 1
-        self.y = portal.twin.y
+        self.x = portal.twin.x + portal.twin.offset[1]
+        self.y = portal.twin.y + portal.twin.offset[2]
     elseif block ~= WALL then
         self.x = new_x
         self.y = new_y

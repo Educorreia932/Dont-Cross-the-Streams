@@ -12,14 +12,14 @@ local rooms = {
 }
 
 portals = {
-    Portal:new(14, 4, false),
-    Portal:new(6, 12, true),
-    Portal:new(12, 25, false),
-    Portal:new(24, 25, false),
-    Portal:new(36, 25, false),
-    Portal:new(40, 20, true),
-    Portal:new(39, 10, true),
-    Portal:new(35, 5, false)
+    Portal:new(14, 4, false, "left"),
+    Portal:new(6, 12, true, "up"),
+    Portal:new(12, 25, false, "right"),
+    Portal:new(24, 25, false, "left"),
+    Portal:new(36, 25, false, "right"),
+    Portal:new(40, 20, true, "down"),
+    Portal:new(39, 10, true, "up"),
+    Portal:new(35, 5, false, "right")
 }
 
 runes = {
@@ -44,11 +44,11 @@ portals[8].twin = portals[6]
 
 camera_offset = {
     x = {
-        value = -8,
+        value = 0,
         free_roam = false
     },
     y = {
-        value = -8,
+        value = 0,
         free_roam = false
     }
 }
