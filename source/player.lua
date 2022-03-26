@@ -16,6 +16,7 @@ function Player:new(x, y)
     local image = gfx.image.new("images/player")
 
 	player.sprite = gfx.sprite.new(image)
+    player.sprite:setIgnoresDrawOffset(true)
 	player.sprite:moveTo(player.x * screen.tileSize, player.y * screen.tileSize)
 	player.sprite:add()
 
@@ -37,6 +38,8 @@ function Player:movement()
     end
 
     local block = detect_collision(new_x, new_y)
+
+    print(self.x, self.y)
 
     if block == ACTIVE_PORTAL then
         local portal = find_portal(new_x, new_y)

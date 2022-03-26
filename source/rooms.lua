@@ -1,5 +1,6 @@
 import "const"
 import "portal"
+import "rune"
 
 local pd <const> = playdate
 local gfx <const> = pd.graphics
@@ -10,8 +11,24 @@ local rooms = {
 }
 
 portals = {
-    Portal:new(14, 4),
-    Portal:new(20, 10),
+    Portal:new(14, 4, false),
+    Portal:new(6, 12, true),
+    Portal:new(26, 13, false),
+    Portal:new(26, 13, false),
+    Portal:new(26, 38, false),
+    Portal:new(21, 42, true),
+    Portal:new(20, 31, true),
+    Portal:new(16, 26, false)
+}
+
+runes = {
+    Rune:new(14, 5, 1),
+    Rune:new(7, 12, 2),
+    Rune:new(26, 14, 3),
+    Rune:new(26, 14, 4),
+    Rune:new(14, 5, 5),
+    Rune:new(14, 5, 6),
+    Rune:new(14, 5, 7)
 }
 
 portals[1]:setTwin(portals[2])
@@ -106,29 +123,33 @@ function find_portal(x, y)
 end
 
 function camera_movement()
-    camera_offset.x.value = player.x*screen.tileSize
-    if camera_offset.x.value >= 352 or camera_offset.x.value < 0 then
-        camera_offset.x.free_roam = true
-        if (camera_offset.x.value > 352) then camera_offset.x.value = 352 end
-        if (camera_offset.x.value < 0) then camera_offset.x.value = 0 end
-    else 
-        camera_offset.x.free_roam = false 
-    end
+    camera_offset.x.value = player.x * screen.tileSize
+    camera_offset.y.value = player.y * screen.tileSize
 
-    camera_offset.y.value = player.y*screen.tileSize
-    if camera_offset.y.value >= 240 or camera_offset.y.value < 0 then
-        camera_offset.y.free_roam = true
-        if (camera_offset.y.value > 240) then camera_offset.y.value = 240 end
-        if (camera_offset.y.value < 0) then camera_offset.y.value = 0 end
-    else 
-        camera_offset.y.free_roam = false 
-    end
+    -- if camera_offset.x.value >= 352 or camera_offset.x.value < 0 then
+    --     camera_offset.x.free_roam = true
+    --     if (camera_offset.x.value > 352) then camera_offset.x.value = 352 end
+    --     if (camera_offset.x.value < 0) then camera_offset.x.value = 0 end
+    -- else 
+    --     camera_offset.x.free_roam = false 
+    -- end
+
+    -- camera_offset.y.value = player.y*screen.tileSize
+    -- if camera_offset.y.value >= 240 or camera_offset.y.value < 0 then
+    --     camera_offset.y.free_roam = true
+    --     if (camera_offset.y.value > 240) then camera_offset.y.value = 240 end
+    --     if (camera_offset.y.value < 0) then camera_offset.y.value = 0 end
+    -- else 
+    --     camera_offset.y.free_roam = false 
+    -- end
 
     local backgroundImage = gfx.image.new("images/lvl1_map")
+
     gfx.sprite.setBackgroundDrawingCallback(
 		function(x, y, width, height)
 			gfx.setClipRect(x, y, width, height)
-			backgroundImage:draw(-camera_offset.x.value + 8, -camera_offset.y.value + 8)
+            gfx.setDrawOffset(-camera_offset.x.value, -camera_offset.y.value)
+			backgroundImage:draw(-8, -8)
 			gfx.clearClipRect()
 		end
 	)

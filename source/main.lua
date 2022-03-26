@@ -24,21 +24,24 @@ end
 initalize()
 
 function playdate.update()
-	gfx.clear()
+	gfx.setDrawOffset(-camera_offset.x.value, -camera_offset.y.value)
 
 	player:movement()
 	
 	gfx.sprite.update()
 
 	local points = {
-		portals[1].x * screen.tileSize,
-		portals[1].y * screen.tileSize,
+		portals[1].x,
+		portals[1].y,
 
-		(portals[1].x * screen.tileSize + portals[2].x * screen.tileSize) / 2,
-		(portals[1].y * screen.tileSize + portals[2].y * screen.tileSize) / 2 + 50,
+		portals[1].x + 3,
+		portals[1].y + 3,
 
-		portals[2].x * screen.tileSize,
-		portals[2].y * screen.tileSize
+		(portals[1].x + portals[3].x) / 3 + 5,
+		(portals[1].y + portals[3].y) / 3 + 8,
+
+		portals[3].x,
+		portals[3].y
 	}
 
 	local spline = Spline()
@@ -46,7 +49,12 @@ function playdate.update()
 
 	gfx.setColor(gfx.kColorXOR)
 
-	for i=1, #res - 4, 2 do
-		gfx.drawLine(res[i], res[i+1],res[i+2], res[i+3])
+	for i=1, #res - 4, 2 do 
+		gfx.drawLine(
+			res[i] * screen.tileSize, 
+			res[i + 1] * screen.tileSize,
+			res[i + 2] * screen.tileSize, 
+			res[i + 3] * screen.tileSize
+		)
 	end
 end

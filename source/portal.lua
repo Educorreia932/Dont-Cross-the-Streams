@@ -5,11 +5,15 @@ local gfx <const> = pd.graphics
 Portal = {}
 Portal.__index = Portal
 
-function Portal:new(x, y, twin)
+function Portal:new(x, y, vertical)
     local portal = {}
     setmetatable(portal, Portal)
 
-    local image_table = gfx.imagetable.new("images/portal")
+    if vertical then
+        image_table = gfx.imagetable.new("images/portal")
+    else
+        image_table = gfx.imagetable.new("images/portal-horizontal")
+    end
 
     portal.x = x
     portal.y = y
