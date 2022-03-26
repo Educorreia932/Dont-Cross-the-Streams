@@ -1,0 +1,3 @@
+[submodule "source/AnimatedSprite"]
+	path = source/AnimatedSprite
+	url = https://github.com/Whitebrim/AnimatedSprite.git

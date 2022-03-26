@@ -9,13 +9,12 @@ local rooms = {
 
 }
 
-local portals = {
+portals = {
     Portal:new(14, 4),
-    Portal:new(10, 4),
+    Portal:new(20, 10),
 }
 
-portals[1].twin = portals[2]
-portals[2].twin = portals[1]
+portals[1]:setTwin(portals[2])
 
 camera_offset = {
     x = {
