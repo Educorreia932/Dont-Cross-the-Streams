@@ -25,11 +25,12 @@ portals = {
 runes = {
     Rune:new(14, 5, 1),
     Rune:new(7, 12, 2),
-    Rune:new(26, 14, 3),
-    Rune:new(26, 14, 4),
-    Rune:new(14, 5, 5),
-    Rune:new(14, 5, 6),
-    Rune:new(14, 5, 7)
+    Rune:new(12, 26, 3),
+    Rune:new(24, 26, 4),
+    Rune:new(36, 26, 5),
+    Rune:new(41, 20, 6),
+    Rune:new(40, 10, 7),
+    Rune:new(35, 6, 8)
 }
 
 portals[1].twin = portals[3]
@@ -54,13 +55,10 @@ camera_offset = {
 
 function background_render()
     map_render()
-
-
-    
 end
 
 function detect_collision(x, y)   
-    if x < 0 or x > 25 or y < 0 or y > 15 then
+    if x < 0 or x > 50 or y < 0 or y > 30 then
         return VOID
     end
 
