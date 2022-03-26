@@ -1,7 +1,8 @@
 VOID = 0
-WALL = 1
-INACTIVE_PORTAL = 2
-ACTIVE_PORTAL = 3
+FLOOR = 1
+WALL = 2
+INACTIVE_PORTAL = 3
+ACTIVE_PORTAL = 4
 
 screen = {
     width = 400,

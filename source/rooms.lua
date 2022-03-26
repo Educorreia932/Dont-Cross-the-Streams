@@ -6,10 +6,12 @@ local gfx <const> = pd.graphics
 
 local map = {}
 local rooms = {
-    {10, 2, 3, 4}
+    {3, 2, 6, 10},
+    {9, 2, 5, 5}
 }
 
 local portals = {
+    Portal:new(14, 4)
 }
 
 function background_render()
@@ -51,13 +53,31 @@ function map_render()
         local endY = room[2] + room[4]
 
         for i=startX, endX do
-            map[i][startY] = WALL
-            map[i][endY] = WALL
+            if map[i][startY] == WALL then
+                map[i][startY] = VOID
+            else    
+                map[i][startY] = WALL
+            end
+
+            if map[i][endY] == WALL then
+                map[i][endY] = VOID
+            else    
+                map[i][endY] = WALL
+            end
         end
 
         for i=startY, endY do
-           map[startX][i] = WALL
-           map[endX][i] = WALL
+            if map[startX][i] == WALL then
+                map[startX][i] = VOID
+            else    
+                map[startX][i] = WALL
+            end
+
+            if map[endX][i] == WALL then
+                map[endX][i] = VOID
+            else    
+                map[endX][i] = WALL
+            end
         end
     end
 
@@ -69,7 +89,4 @@ function map_render()
 
         map[x][y] = ACTIVE_PORTAL
     end
-
-    printTable(map)
 end
-

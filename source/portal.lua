@@ -12,15 +12,13 @@ function Portal:new(x, y, twin)
     portal.y = y
     portal.twin = twin
 
-    return portal
-end
-
-function Portal:render()
     local image = gfx.image.new("images/portal1.png")
-	local sprite = gfx.sprite.new(image)
+    
+	portal.sprite = gfx.sprite.new(image)
+    portal.sprite:moveTo(portal.x * screen.tileSize, portal.y * screen.tileSize)
+	portal.sprite:add()
 
-	sprite:moveTo(self.x, self.y)
-	sprite:add()
+    return portal
 end
 
 function Portal:setTwin(twin)

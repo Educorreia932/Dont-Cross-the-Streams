@@ -35,10 +35,10 @@ function Player:movement()
     end
 
     local block = detect_collision(new_x, new_y)
-    print(new_y)
 
     if block == ACTIVE_PORTAL then
-        -- TODO: Update position to portal 
+        self.x = portal.twin.x
+        self.y = portal.twin.y
     elseif block ~= WALL then
         self.x = new_x
         self.y = new_y
