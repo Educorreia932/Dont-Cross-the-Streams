@@ -50,6 +50,20 @@ local function initalize()
 	)
 
 	resetTimer()
+
+	local points = {
+		0,
+		0,
+
+		100,
+		150,
+
+		200,
+		0
+	}
+
+	local spline = Spline()
+	res = spline:getCurvePoints(points)
 end
 
 initalize()
@@ -59,7 +73,6 @@ function playdate.update()
 		if playdate.buttonJustPressed(playdate.kButtonA) then
 			resetTimer()
 			moveCoin()
-			score = 0
 		end
 	else
 		if playdate.buttonIsPressed(playdate.kButtonUp) then
@@ -78,40 +91,13 @@ function playdate.update()
 		local collisions = coinSprite:overlappingSprites()
 		if #collisions >= 1 then
 			moveCoin()
-			score += 1
 		end
 	end
 
 	playdate.timer.updateTimers()
 	gfx.sprite.update()
 
-	gfx.drawText("Time: " .. math.ceil(playTimer.value/1000), 5, 5)
-	gfx.drawText("Score: " .. score, 320, 5)
-
-	local points = {}
-	local prevX = 0
-	local prevY = 0
-	
-	for i=1, 100 do
-		local x = prevX + math.random(1,100)
-		local y = prevY + math.random(1,100)
-
-		table.insert(points, x)
-		table.insert(points, y)
-		prevX = x
-		prevY = y
-	end
-
-	for i=1, #points, 2 do
-		print(points[i]..","..points[i+1])
-	end
-
-	local spline = Spline()
-	local res = spline:getCurvePoints(points)
-
-	--print(#res)
 	for i=1, #res - 4, 4 do
-		print(res[i]..","..res[i+1])
 		gfx.drawLine(res[i], res[i+1],res[i+2], res[i+3])
 	end
 end

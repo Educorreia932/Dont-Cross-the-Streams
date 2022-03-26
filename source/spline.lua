@@ -84,14 +84,14 @@ function Spline:getCurvePoints(ptsa, tension, numOfSegments)
 
 	--/ clone array so we don't change the original content
 	local _pts = ptsa
-    --for k, v in ipairs(ptsa) do
-    --    _pts[k] = v
-    --end
+    for k, v in ipairs(ptsa) do
+       _pts[k] = v
+    end
 
-    table.insert(_pts, ptsa[2], 1)
-    table.insert(_pts, ptsa[1], 1)
+    table.insert(_pts, ptsa[1])
+    table.insert(_pts, ptsa[2])
     table.insert(_pts, ptsa[pl - 1])
-    table.insert(_pts, ptsa[pl - 0])
+    table.insert(_pts, ptsa[pl])
 
 	--/ 1. loop goes through point array
 	--/ 2. loop goes through each segment between the two points + one point before and after
@@ -103,10 +103,10 @@ function Spline:getCurvePoints(ptsa, tension, numOfSegments)
 		p3 = _pts[i + 3]
 
 		--/ calc tension vectors
-		t1x = (p2 - _pts[i - 2])* tension
-		t2x = (_pts[i + 4] - p0)* tension
+		t1x = (p2 - _pts[i - 2]) * tension
+		t2x = (_pts[i + 4] - p0) * tension
 
-		t1y = (p3 - _pts[i - 1])* tension
+		t1y = (p3 - _pts[i - 1]) * tension
 		t2y = (_pts[i + 5] - p1) * tension
 
         for t=0, numOfSegments do
