@@ -27,7 +27,7 @@ function Player:movement()
     new_y = self.y
 
     if playdate.buttonJustPressed(playdate.kButtonUp) then
-        new_y = self.y - 1  
+        new_y = self.y - 1
     elseif playdate.buttonJustPressed(playdate.kButtonDown) then
         new_y = self.y + 1  
     elseif playdate.buttonJustPressed(playdate.kButtonLeft) then
@@ -49,6 +49,10 @@ function Player:movement()
         self.y = new_y
     end
 
-    self.sprite:moveTo(screen.tileSize * self.x, screen.tileSize * self.y)
+    if camera_offset.x.free_roam or camera_offset.y.free_roam then
+        self.sprite:moveTo(screen.tileSize * self.x, screen.tileSize * self.y)
+    end
+
+    camera_movement()
 end
 

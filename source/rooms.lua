@@ -6,8 +6,7 @@ local gfx <const> = pd.graphics
 
 local map = {}
 local rooms = {
-    {3, 2, 6, 10},
-    {9, 2, 5, 5}
+
 }
 
 local portals = {
@@ -18,17 +17,19 @@ local portals = {
 portals[1].twin = portals[2]
 portals[2].twin = portals[1]
 
+camera_offset = {
+    x = {
+        value = -8,
+        free_roam = false
+    },
+    y = {
+        value = -8,
+        free_roam = false
+    }
+}
+
 function background_render()
     map_render()
-    
-    local backgroundImage = gfx.image.new("images/lvl1_map")
-    gfx.sprite.setBackgroundDrawingCallback(
-		function(x, y, width, height)
-			gfx.setClipRect(x, y, width, height)
-			backgroundImage:draw(-8, -8)
-			gfx.clearClipRect()
-		end
-	)
 end
 
 function detect_collision(x, y)   
@@ -103,4 +104,33 @@ function find_portal(x, y)
             return portal
         end
     end
+end
+
+function camera_movement()
+    camera_offset.x.value = player.x*screen.tileSize
+    if camera_offset.x.value >= 352 or camera_offset.x.value < 0 then
+        camera_offset.x.free_roam = true
+        if (camera_offset.x.value > 352) then camera_offset.x.value = 352 end
+        if (camera_offset.x.value < 0) then camera_offset.x.value = 0 end
+    else 
+        camera_offset.x.free_roam = false 
+    end
+
+    camera_offset.y.value = player.y*screen.tileSize
+    if camera_offset.y.value >= 240 or camera_offset.y.value < 0 then
+        camera_offset.y.free_roam = true
+        if (camera_offset.y.value > 240) then camera_offset.y.value = 240 end
+        if (camera_offset.y.value < 0) then camera_offset.y.value = 0 end
+    else 
+        camera_offset.y.free_roam = false 
+    end
+
+    local backgroundImage = gfx.image.new("images/lvl1_map")
+    gfx.sprite.setBackgroundDrawingCallback(
+		function(x, y, width, height)
+			gfx.setClipRect(x, y, width, height)
+			backgroundImage:draw(-camera_offset.x.value + 8, -camera_offset.y.value + 8)
+			gfx.clearClipRect()
+		end
+	)
 end

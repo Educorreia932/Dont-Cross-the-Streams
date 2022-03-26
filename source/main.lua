@@ -12,14 +12,18 @@ import "portal"
 local gfx <const> = playdate.graphics
 
 local function initalize()
-	player = Player:new(11, 4)
+	player = Player:new(3, 2)
 	background_render()
 end
 
 initalize()
 
 function playdate.update()
+	gfx.clear()
+
 	player:movement()
 
 	gfx.sprite.update()
+
+	print(player.x .. " " .. player.y .. " " .. camera_offset.x.value .. " " .. camera_offset.y.value)
 end
