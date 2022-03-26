@@ -17,6 +17,7 @@ local function initalize()
 
 	portal:render()
 	player_render()
+	background_render()
 end
 
 initalize()
