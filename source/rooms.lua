@@ -11,6 +11,8 @@ local rooms = {
     {9, 2, 5, 5}
 }
 
+backgroundImage = gfx.image.new("images/lvl1_map")
+
 portals = {
     Portal:new(14, 4, false, "left"),
     Portal:new(6, 12, true, "up"),
@@ -41,6 +43,8 @@ portals[5].twin = portals[2]
 portals[6].twin = portals[8]
 portals[7].twin = portals[4]
 portals[8].twin = portals[6]
+
+streams = {}
 
 camera_offset = {
     x = {
@@ -114,10 +118,24 @@ function map_render()
     -- Mark portals
     for i = 1, #portals do
         local portal = portals[i]
-        local x = portal.x
-        local y = portal.y
+        local x1 = portal.x
+        local y1 = portal.y
+        local x2 = portal.twin.x
+        local y2 = portal.twin.y
 
-        map[x][y] = ACTIVE_PORTAL
+        map[x1][y1] = ACTIVE_PORTAL
+
+        local points = {
+            x1, 
+            y1,
+
+            x2, 
+            y2,
+        }
+
+        printTable(points)
+
+        streams[i] = points
     end
 end
 
@@ -134,8 +152,6 @@ end
 function camera_movement()
     camera_offset.x.value = (player.x - 10) * screen.tileSize
     camera_offset.y.value = (player.y - 5) * screen.tileSize
-
-    local backgroundImage = gfx.image.new("images/lvl1_map")
 
     gfx.sprite.setBackgroundDrawingCallback(
 		function(x, y, width, height)

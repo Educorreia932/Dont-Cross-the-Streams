@@ -39,7 +39,4 @@ function Portal:new(x, y, vertical, direction)
     return portal
 end
 
-function Portal:setTwin(twin)
-    self.twin = twin
-    twin.twin = self
-end
+

@@ -1,20 +1,10 @@
--- Spline.lua
+local pd <const> = playdate
+local gfx <const> = pd.graphics
 
-function class()
-    return setmetatable({}, {
-        __call = function(self, ...)
-            self:init(...)
-            return self
-        end
-    })
-end
+Stream = {}
+Stream.__index = Stream
 
-Spline = class()
-
-function Spline:init()
-end
-
-function Spline:getCurvePoints(ptsa, tension, numOfSegments)
+function Stream:getCurvePoints(ptsa, tension, numOfSegments)
 	-- use input value if provided, or use a default value	 
 	tension = tension or 0.5
 	numOfSegments = numOfSegments or 16
