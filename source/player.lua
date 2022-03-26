@@ -22,24 +22,23 @@ end
 
 function Player:movement()
     if playdate.buttonJustPressed(playdate.kButtonUp) and
-        not detect_collision(self.x, self.y,"up") then
+        detect_collision(self.x, self.y, "up") ~= WALL then
             self.sprite:moveBy(0, -screen.tileSize)
     end
     
     if playdate.buttonJustPressed(playdate.kButtonRight) and 
-        not detect_collision(self.x, self.y,"right") then
+        detect_collision(self.x, self.y,"right") ~= WALL then
         self.sprite:moveBy(screen.tileSize, 0)
     end
     
     if playdate.buttonJustPressed(playdate.kButtonDown) and
-        not detect_collision(self.x, self.y,"down") then
+        detect_collision(self.x, self.y, "down") ~= WALL then
         self.sprite:moveBy(0, screen.tileSize)
     end
 
     if playdate.buttonJustPressed(playdate.kButtonLeft) and
-        not detect_collision(self.x, self.y,"left") then
-        self.sprite:moveBy(- screen.tileSize, 0)
+        detect_collision(self.x, self.y, "left") ~= WALL then
+        self.sprite:moveBy(-screen.tileSize, 0)
     end
-
 end
 

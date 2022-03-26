@@ -23,21 +23,29 @@ function background_render()
     gfx.sprite.setBackgroundDrawingCallback(
 		function(x, y, width, height)
 			gfx.setClipRect(x, y, width, height)
-			backgroundImage:draw(0, 0)
+			backgroundImage:draw(-8, -8)
 			gfx.clearClipRect()
 		end
 	)
 end
 
 function detect_collision(x, y, direction)   
-    if (direction == "up" and y - 1 >= 0 and map[x][y - 1] == 1)
-    or (direction == "down" and y + 1 <= screen.height / screen.tileSize and map[x][y + 1] == 1)
-    or (direction == "right" and x + 1 <= screen.width / screen.tileSize and map[x + 1][y] == 1)
-    or (direction == "left" and x - 1 >= 0 and map[x - 1][y] == 1) then
-        return true
+
+    if direction == "up" then
+        y = y - 1
+    elseif direction == "down" then
+        y = y + 1
+    elseif direction == "right" then
+        x = x + 1
+    elseif direction == "left" then
+        x = x - 1
     end
 
-    return false
+    if x < 0 or x > 25 or y < 0 or y > 15 then
+        return VOID
+    end
+
+    return map[x][y]
 end
 
 function map_render()

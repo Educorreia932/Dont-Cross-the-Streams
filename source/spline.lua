@@ -1,5 +1,5 @@
 -- Spline.lua
---
+
 function class()
     return setmetatable({}, {
         __call = function(self, ...)
@@ -14,55 +14,7 @@ Spline = class()
 function Spline:init()
 end
 
---!
---  	Smooth curves on canvas version 1.3
---
---		By Ken Fyrstenberg Nilsen (c) 2013
---		Abdias Software, http:--abdiassoftware.com/
---
---		MIT licensed.
---
---
---
---	History:
---
---		1.3		Speed optimizations.
---				Closed mode obsolete (no solution at this point). No change in arguments
---				for backward (and possible future) compatibility but does nothing.
---
---		1.2		Now also an extension to Canvas' context: context.drawCurve()
---
---		1.1		Split main function into three functions so one can retrieve point array
---				separately without drawing. Widens its usage. The three functions are:
---				  drawCurve()		- as before
---				  getCurvePoints()	- get a point array with smooth points based on point array
---				  drawLines()		- draws an array of points to canvas (any point list will do)
---
---
-
---
---		Uses an array of points (x,y) to return an array containing points
---		for a smooth curve.
---
---	USAGE:
---
---		getCurvePoints(points, tension, numberOfSegments)
---
---		getCurvePoints(array)
---		getCurvePoints(array, float)
---		getCurvePoints(array, float, boolean)
---		getCurvePoints(array, float, boolean, integer)
---
---		points				= array of float or integers arranged as x1,y1,x2,y1,...,xn,yn. Minimum 2 points.
---		tension				= 0-1, 0 = no smoothing, 0.5 = smooth (default), 1 = very smoothed
---		numberOfSegments	= resolution of the smoothed curve. Higer number -> smoother (default 16)
---
---		NOTE: array must contain a minimum set of two points.
---		Known bugs: closed curve draws last point wrong.
---
-
 function Spline:getCurvePoints(ptsa, tension, numOfSegments)
-
 	-- use input value if provided, or use a default value	 
 	tension = tension or 0.5
 	numOfSegments = numOfSegments or 16
@@ -83,13 +35,14 @@ function Spline:getCurvePoints(ptsa, tension, numOfSegments)
 	local pl = #ptsa
 
 	--/ clone array so we don't change the original content
-	local _pts = ptsa
+	local _pts = {}
+
     for k, v in ipairs(ptsa) do
        _pts[k] = v
     end
 
-    table.insert(_pts, ptsa[1])
-    table.insert(_pts, ptsa[2])
+    table.insert(_pts, 1, ptsa[2])
+    table.insert(_pts, 1, ptsa[1])
     table.insert(_pts, ptsa[pl - 1])
     table.insert(_pts, ptsa[pl])
 
@@ -110,7 +63,6 @@ function Spline:getCurvePoints(ptsa, tension, numOfSegments)
 		t2y = (_pts[i + 5] - p1) * tension
 
         for t=0, numOfSegments do
-
 			--/ calc step
 			st = t / numOfSegments
 		
@@ -119,17 +71,17 @@ function Spline:getCurvePoints(ptsa, tension, numOfSegments)
 			pow23 = pow2 * 3
 			pow32 = pow3 * 2
 
-			--/ calc cardinals
+			-- calc cardinals
 			c1 = pow32 - pow23 + 1 
 			c2 = pow23 - pow32
 			c3 = pow3 - 2 * pow2 + st
 			c4 = pow3 - pow2
 
-			--/ calc x and y cords with common control vectors
+			-- Calc x and y cords with common control vectors
 			x = c1 * p0 + c2 * p2 + c3 * t1x + c4 * t2x
 			y = c1 * p1 + c2 * p3 + c3 * t1y + c4 * t2y
 		
-			--/ store points in array
+			-- Store points in array
             table.insert(res, x)
             table.insert(res, y)
 		end
