@@ -8,12 +8,14 @@ import "player"
 import "rooms"
 import "const"
 import "portal"
+import "music"
 
 local gfx <const> = playdate.graphics
 
 local function initalize()
 	player = Player:new(3, 2)
 	background_render()
+    loopGameMusic()
 end
 
 initalize()
