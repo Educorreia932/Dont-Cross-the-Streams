@@ -21,24 +21,29 @@ function Player:new(x, y)
 end
 
 function Player:movement()
-    if playdate.buttonJustPressed(playdate.kButtonUp) and
-        detect_collision(self.x, self.y, "up") ~= WALL then
-            self.sprite:moveBy(0, -screen.tileSize)
-    end
-    
-    if playdate.buttonJustPressed(playdate.kButtonRight) and 
-        detect_collision(self.x, self.y,"right") ~= WALL then
-        self.sprite:moveBy(screen.tileSize, 0)
-    end
-    
-    if playdate.buttonJustPressed(playdate.kButtonDown) and
-        detect_collision(self.x, self.y, "down") ~= WALL then
-        self.sprite:moveBy(0, screen.tileSize)
+    new_x = self.x
+    new_y = self.y
+
+    if playdate.buttonJustPressed(playdate.kButtonUp) then
+        new_y = self.y - 1  
+    elseif playdate.buttonJustPressed(playdate.kButtonDown) then
+        new_y = self.y + 1  
+    elseif playdate.buttonJustPressed(playdate.kButtonLeft) then
+        new_x = self.x - 1  
+    elseif playdate.buttonJustPressed(playdate.kButtonRight) then
+        new_x = self.x + 1  
     end
 
-    if playdate.buttonJustPressed(playdate.kButtonLeft) and
-        detect_collision(self.x, self.y, "left") ~= WALL then
-        self.sprite:moveBy(-screen.tileSize, 0)
+    local block = detect_collision(new_x, new_y)
+    print(new_y)
+
+    if block == ACTIVE_PORTAL then
+        -- TODO: Update position to portal 
+    elseif block ~= WALL then
+        self.x = new_x
+        self.y = new_y
     end
+
+    self.sprite:moveTo(screen.tileSize * self.x, screen.tileSize * self.y)
 end
 

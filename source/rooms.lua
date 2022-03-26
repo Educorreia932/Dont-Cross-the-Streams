@@ -10,11 +10,7 @@ local rooms = {
 }
 
 local portals = {
-    Portal:new(256, 128),
-    Portal:new(128, 128)
 }
-
-portals[1]:setTwin(portals[2])
 
 function background_render()
     map_render()
@@ -29,18 +25,7 @@ function background_render()
 	)
 end
 
-function detect_collision(x, y, direction)   
-
-    if direction == "up" then
-        y = y - 1
-    elseif direction == "down" then
-        y = y + 1
-    elseif direction == "right" then
-        x = x + 1
-    elseif direction == "left" then
-        x = x - 1
-    end
-
+function detect_collision(x, y)   
     if x < 0 or x > 25 or y < 0 or y > 15 then
         return VOID
     end
@@ -66,13 +51,13 @@ function map_render()
         local endY = room[2] + room[4]
 
         for i=startX, endX do
-            map[i][startY] = 1
-            map[i][endY] = 1
+            map[i][startY] = WALL
+            map[i][endY] = WALL
         end
 
         for i=startY, endY do
-           map[startX][i] = 1
-           map[endX][i] = 1
+           map[startX][i] = WALL
+           map[endX][i] = WALL
         end
     end
 
@@ -84,5 +69,7 @@ function map_render()
 
         map[x][y] = ACTIVE_PORTAL
     end
+
+    printTable(map)
 end
 
