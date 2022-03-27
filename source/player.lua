@@ -47,7 +47,7 @@ function Player:update()
     if block == ACTIVE_PORTAL then
         local portal = find_portal(new_x, new_y)
 
-        if portal.rune.stream.active then
+        if portal.rune ~= nil and portal.rune.stream.active then
             -- Teleport player
             playPortalSound()
 
@@ -72,7 +72,7 @@ function Player:interact()
         -- Necessary coordinates the player needs to be in order to interact with the portal's rune
         local interact_x = portal.x + portal.player_direction.x + portal.rune_direction.x
         local interact_y = portal.y + portal.player_direction.y + portal.rune_direction.y
-        local interacting = interact_x == self.x and interact_y == self.y and portal.rune ~= nil
+        local interacting = interact_x == self.x and interact_y == self.y
 
         if interacting then
             playGrabRuneSound()
@@ -81,7 +81,11 @@ function Player:interact()
             if player.holding_rune ~= nil then
                 -- Replace portal's rune
                 local portal_rune = portal.rune
-                portal:removeRune()
+
+                if portal_rune ~= nil then
+                    portal:removeRune()
+                end
+
                 portal:addRune(player.holding_rune)
                 player.holding_rune = portal_rune
 

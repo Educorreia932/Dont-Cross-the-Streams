@@ -120,3 +120,30 @@ function Stream:draw()
     end
 end 
 
+function Stream:intersects(stream)
+	for i = 1, #self.points - 4, 2 do
+		for j = 1, #stream.points - 4, 2 do
+			local x1 = self.points[i]
+			local y1 = self.points[i + 1]
+			local x2 = self.points[i + 2]
+			local y2 = self.points[i + 3] 
+
+			local x3 = self.points[j]
+			local y3 = self.points[j + 1]
+			local x4 = self.points[j + 2]
+			local y4 = self.points[j + 3] 
+
+			local m1 = (y2 - y1) / (x2 - x1)
+			local m2 = y2 / x2
+			local b1 = y1 - m1 * x1 
+			local b2 = y2 - m2 * x2
+
+			-- Parallel
+			if m1 == m2 then
+				return true 
+			end
+		end
+	end
+
+	return false
+end
