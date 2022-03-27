@@ -7,8 +7,17 @@ local gfx <const> = pd.graphics
 
 local map = {}
 local rooms = {
+    -- room 1
     {3, 2, 6, 10},
-    {9, 2, 5, 5}
+    {9, 2, 5, 5},
+    -- room 2
+    {35, 2, 7, 8},
+    -- room 3
+    {12, 23, 3, 5},
+    {15, 19, 6, 9},
+    {21, 23, 3, 5},
+    -- room 4
+    {36, 20, 8, 7}
 }
 
 backgroundImage = gfx.image.new("images/lvl1_map")
