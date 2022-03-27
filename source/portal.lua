@@ -56,10 +56,35 @@ function Portal:removeRune()
 end
 
 function Portal:addRune(rune)
-    self.rune = rune
-    self.rune.x = self.x + self.rune_direction.x
-    self.rune.y = self.y + self.rune_direction.y
-    self.rune.sprite:moveTo(self.rune.x * screen.tileSize, self.rune.y * screen.tileSize)
-    self.rune.sprite:add()
+    -- Update rune's coordinates
+    rune.x = self.x + self.rune_direction.x
+    rune.y = self.y + self.rune_direction.y
+
+    -- Update portal rune's sprite
+    rune.sprite:moveTo(rune.x * screen.tileSize, rune.y * screen.tileSize)
+    rune.sprite:add()
+
+    -- Update stream
+    local twin = self:getTwin()
+
+    if self == self.stream.portal_1 then
+        self.stream.portal_2 = rune.portal:getTwin()
+    else
+        self.stream.portal_1 = rune.portal:getTwin()
+    end
+
+    self.stream.points = self.stream:getCurvePoints()
+    self:getTwin().stream = self.stream
     self.stream.active = true
+
+    rune.portal = self
+    self.rune = rune
+end
+
+function Portal:getTwin()
+	if self.stream.portal_1 == self then
+		return self.stream.portal_2
+    end
+
+	return self.stream.portal_1
 end

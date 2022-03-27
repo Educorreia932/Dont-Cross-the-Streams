@@ -51,8 +51,10 @@ function Player:update()
 
         if portal.stream.active then
             -- Teleport player
-            self.x = portal.twin.x + portal.twin.player_direction.x
-            self.y = portal.twin.y + portal.twin.player_direction.y
+            twin = portal:getTwin()
+
+            self.x = twin.x + twin.player_direction.x
+            self.y = twin.y + twin.player_direction.y
         end
     elseif block ~= WALL then
         self.x = new_x
@@ -76,9 +78,10 @@ function Player:interact()
             -- Player is holding rune
             if player.holding_rune ~= nil then
                 -- Replace portal's rune
+                local portal_rune = portal.rune
                 portal:removeRune()
                 portal:addRune(player.holding_rune)
-                player.holding_rune = portal.rune
+                player.holding_rune = portal_rune
 
             -- Player is not holding rune
             else
