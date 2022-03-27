@@ -62,7 +62,7 @@ function Player:update()
     end
 
     camera_movement()
-    displayRuneGUI(player.holding_rune)
+    displayRuneGUI()
 end
 
 function Player:interact() 
