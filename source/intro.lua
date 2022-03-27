@@ -12,6 +12,13 @@ local textPlacement = {
     y= 150
 }
 
+local shakeManager = {
+    animFrames = 16,
+    offsetIndex = 1,
+    offsetX = {1, 2, 1, 0, -1, 0, 1, 2, 1, 0, -1, -2, -1, 0, 1, 0},
+    offsetY = {-1, 0, -1, -2, -1, 0, -1, 0, -1, -2, -1, 0, 1, 2, 1, 0}
+}
+
 screenManager = {
     currentScreen = 0,
     screens = {
@@ -64,7 +71,7 @@ function background()
 end
 
 function title()
-    local textImage = gfx.image.new("images/text_box_2")
+    local textImage = gfx.image.new("images/text_box_title")
 
     gfx.sprite.setBackgroundDrawingCallback(
 		function(x, y, width, height)
@@ -73,6 +80,15 @@ function title()
 			gfx.clearClipRect()
 		end
 	)
+
+    if(shakeManager.animFrames > 0) then shake() end
+end
+
+function shake()
+    playdate.display.setOffset(shakeManager.offsetX[shakeManager.offsetIndex], shakeManager.offsetY[shakeManager.offsetIndex])
+
+    shakeManager.offsetIndex += 1
+    shakeManager.animFrames -= 1
 end
 
 function buttonPressed()
