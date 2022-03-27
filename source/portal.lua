@@ -49,3 +49,17 @@ function Portal:setTwin(portal)
     portal.twin = self
 end
 
+function Portal:removeRune()
+    self.rune.sprite:remove()
+    self.rune = nil
+    self.stream.active = false
+end
+
+function Portal:addRune(rune)
+    self.rune = rune
+    self.rune.x = self.x + self.rune_direction.x
+    self.rune.y = self.y + self.rune_direction.y
+    self.rune.sprite:moveTo(self.rune.x * screen.tileSize, self.rune.y * screen.tileSize)
+    self.rune.sprite:add()
+    self.stream.active = true
+end

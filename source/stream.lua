@@ -13,6 +13,7 @@ function Stream:new(portal_1, portal_2)
     stream.portal_1 = portal_1
     stream.portal_2 = portal_2
     stream.points = stream:getCurvePoints()
+	stream.active = true
 
     return stream
 end
@@ -21,6 +22,8 @@ function Stream:getCurvePoints()
     ptsa = {
         self.portal_1.x,
         self.portal_1.y,
+		(self.portal_1.x + self.portal_2.x) / 2,
+		(self.portal_1.y + self.portal_2.y) / 2,
         self.portal_2.x,
         self.portal_2.y,
     }
@@ -101,7 +104,13 @@ end
 function Stream:draw()
 	gfx.setColor(gfx.kColorWhite) -- TODO: Why isn't XOR working?
 
-    for i = 1, #self.points - 4, 2 do
+	local step = 2
+
+	if not self.active then
+		step = 4
+	end
+
+    for i = 1, #self.points - 4, step do
         gfx.drawLine(
             self.points[i] * screen.tileSize, 
             self.points[i + 1] * screen.tileSize, 
@@ -109,4 +118,4 @@ function Stream:draw()
             self.points[i + 3] * screen.tileSize
         )
     end
-end
+end 

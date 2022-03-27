@@ -12,6 +12,7 @@ function Rune:new(x, y, i, portal)
     rune.x = x
     rune.y = y
     rune.portal = portal
+    rune.i = i
 
     local image = gfx.image.new("images/rune" .. i)
     
@@ -20,9 +21,4 @@ function Rune:new(x, y, i, portal)
 	rune.sprite:add()
 
     return rune
-end
-
-function Rune:remove()
-    self.portal.rune = nil
-    self.sprite:remove()
 end
