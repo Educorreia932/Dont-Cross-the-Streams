@@ -19,11 +19,13 @@ local function initalize()
 	background_render()
     loopGameMusic()
 	gfx.setLineWidth(2)
+	gfx.setBackgroundColor(gfx.kColorBlack)
 end
 
 initalize()
 
 function playdate.update()
+	
 	player:update()
 
 	gfx.setDrawOffset(-camera_offset.x.value, -camera_offset.y.value)
