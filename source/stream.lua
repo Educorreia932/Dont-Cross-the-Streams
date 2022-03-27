@@ -120,6 +120,63 @@ function Stream:draw()
     end
 end 
 
+function on_segment(p, q, r)
+    if q[0] <= max(p[0], r[0]) and q[0] >= min(p[0], r[0]) and q[1] <= max(p[1], r[1]) and q[1] >= min(p[1], r[1]) then
+        return True
+	end
+
+    return False
+end
+
+function orientation(p, q, r)
+    local val = ((q[1] - p[1]) * (r[0] - q[0]) - (q[0] - p[0]) * (r[1] - q[1]))
+
+    if val == 0 then
+        return 0  -- Colinear
+	elseif val > 0 then
+        return 1  -- Clockwise
+    else
+        return 2  -- Counter-clockwise
+	end
+end
+
+function intersect(p1, q1, p2, q2)
+    local o1 = orientation(p1, q1, p2)
+    local o2 = orientation(p1, q1, q2)
+    local o3 = orientation(p2, q2, p1)
+    local o4 = orientation(p2, q2, q1)
+
+    -- General case
+    if o1 ~= o2 and o3 ~= o4 then
+        return true
+	end
+
+    -- Special Cases
+
+    -- p1, q1 and p2 are colinear and p2 lies on segment p1q1
+    if o1 == 0 and on_segment(p1, p2, q1) then
+        return true
+	end
+
+    -- p1, q1 and p2 are colinear and q2 lies on segment p1q1
+    if o2 == 0 and on_segment(p1, q2, q1) then
+        return true
+	end
+
+    -- p2, q2 and p1 are colinear and p1 lies on segment p2q2
+    if o3 == 0 and on_segment(p2, p1, q2) then
+        return true
+	end
+
+    -- p2, q2 and q1 are colinear and q1 lies on segment p2q2
+    if o4 == 0 and on_segment(p2, q1, q2) then
+        return true
+	end
+
+	-- Doesn't fall in any of the above cases
+    return False 
+end
+
 function Stream:intersects(stream)
 	for i = 1, #self.points - 4, 2 do
 		for j = 1, #stream.points - 4, 2 do
@@ -133,14 +190,8 @@ function Stream:intersects(stream)
 			local x4 = self.points[j + 2]
 			local y4 = self.points[j + 3] 
 
-			local m1 = (y2 - y1) / (x2 - x1)
-			local m2 = y2 / x2
-			local b1 = y1 - m1 * x1 
-			local b2 = y2 - m2 * x2
-
-			-- Parallel
-			if m1 == m2 then
-				return true 
+			if intersect({x1, y1}, {x2, y2}, {x3, y3}, {x4, y4}) then
+				return true
 			end
 		end
 	end
