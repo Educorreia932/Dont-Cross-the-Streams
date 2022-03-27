@@ -88,6 +88,8 @@ function Player:interact()
                 player.holding_rune = portal.rune
                 portal:removeRune()
             end
+
+            print(player.holding_rune.i)
         end
     end
 end
