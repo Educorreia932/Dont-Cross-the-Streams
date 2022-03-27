@@ -1,5 +1,5 @@
 import "rooms"
-import "soundeffects"
+import "music"
 
 local pd <const> = playdate
 local gfx <const> = pd.graphics
@@ -47,10 +47,10 @@ function Player:update()
     if block == ACTIVE_PORTAL then
         local portal = find_portal(new_x, new_y)
 
-        playPortalSound()
-
         if portal.rune.stream.active then
             -- Teleport player
+            playPortalSound()
+
             twin = portal:getTwin()
 
             self.x = twin.x + twin.player_direction.x
@@ -75,6 +75,8 @@ function Player:interact()
         local interacting = interact_x == self.x and interact_y == self.y and portal.rune ~= nil
 
         if interacting then
+            playGrabRuneSound()
+
             -- Player is holding rune
             if player.holding_rune ~= nil then
                 -- Replace portal's rune
@@ -88,8 +90,6 @@ function Player:interact()
                 player.holding_rune = portal.rune
                 portal:removeRune()
             end
-
-            print(player.holding_rune.i)
         end
     end
 end
