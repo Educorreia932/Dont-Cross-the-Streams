@@ -102,7 +102,7 @@ function Stream:getCurvePoints()
 end
 
 function Stream:draw()
-	gfx.setColor(gfx.kColorWhite) -- TODO: Why isn't XOR working?
+	gfx.setColor(gfx.kColorXOR) 
 
 	local step = 2
 
@@ -119,3 +119,4 @@ function Stream:draw()
         )
     end
 end 
+
