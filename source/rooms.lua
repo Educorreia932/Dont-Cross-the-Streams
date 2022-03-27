@@ -100,14 +100,22 @@ function map_render()
         end
     end
 
-    -- Mark portals
+    -- Mark portals and streans
     for i = 1, #portals do
         local portal = portals[i]
         local x = portal.x
         local y = portal.y
 
         map[x][y] = ACTIVE_PORTAL
-        streams[i] = Stream:new(portal, portal.twin)
+
+        if portal.stream == nil then
+            local stream = Stream:new(portal, portal.twin)
+
+            portal.stream = stream
+            portal.twin.stream = stream
+
+            table.insert(streams, stream)
+        end
     end
 end
 

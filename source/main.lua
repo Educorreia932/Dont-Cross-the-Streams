@@ -29,7 +29,6 @@ function playdate.update()
 	player:update()
 
 	gfx.setDrawOffset(-camera_offset.x.value, -camera_offset.y.value)
-
 	gfx.sprite.update()
 
 	for i = 1, #streams do

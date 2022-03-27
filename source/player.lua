@@ -49,9 +49,11 @@ function Player:update()
 
         playPortalSound()
 
-        -- TODO: Create a portal method for this?
-        self.x = portal.twin.x + portal.twin.player_direction.x
-        self.y = portal.twin.y + portal.twin.player_direction.y
+        if portal.stream.active then
+            -- Teleport player
+            self.x = portal.twin.x + portal.twin.player_direction.x
+            self.y = portal.twin.y + portal.twin.player_direction.y
+        end
     elseif block ~= WALL then
         self.x = new_x
         self.y = new_y
@@ -64,13 +66,23 @@ function Player:interact()
     for i=1, #portals do
         local portal = portals[i]
 
-        if portal.rune ~= nil then
-            local rune = portal.rune
+        -- Necessary coordinates the player needs to be in order to interact with the portal's rune
+        local interact_x = portal.x + portal.player_direction.x + portal.rune_direction.x
+        local interact_y = portal.y + portal.player_direction.y + portal.rune_direction.y
+        local interacting = interact_x == self.x and interact_y == self.y and portal.rune ~= nil
 
-            if rune.x + portal.player_direction.x == self.x and rune.y + portal.player_direction.y == self.y then
-                player.holding_rune = rune
+        if interacting then
+            -- Player is holding rune
+            if player.holding_rune ~= nil then
+                -- Replace portal's rune
+                portal:removeRune()
+                portal:addRune(player.holding_rune)
+                player.holding_rune = portal.rune
 
-                rune:remove()
+            -- Player is not holding rune
+            else
+                player.holding_rune = portal.rune
+                portal:removeRune()
             end
         end
     end
