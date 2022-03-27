@@ -122,7 +122,6 @@ function map_render()
 
             portal.rune.stream = stream
             portal.twin.rune.stream = stream
-            print("Stream:"..portal.rune.i, portal.twin.rune.i, portal.x, portal.y, portal.twin.x, portal.twin.y)
 
             table.insert(streams, stream)
         end

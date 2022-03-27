@@ -36,8 +36,11 @@ function Portal:new(x, y, player_direction, rune_direction, i)
 
     local sprite = AnimatedSprite.new(image_table)
 
+    print(image_table:getImage(6))
+
     sprite:moveTo(portal.x * screen.tileSize, portal.y * screen.tileSize)
     sprite:addState("idle", nil, nil, {tickStep = 5}) 
+
     sprite:playAnimation()
 	sprite:add()
 

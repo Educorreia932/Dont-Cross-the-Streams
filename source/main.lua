@@ -15,7 +15,6 @@ import "stream"
 local gfx <const> = playdate.graphics
 
 local function initalize()
-	print(intersect({0, 0}, {10, 10}, {0, 10}, {10, 0}))
 	player = Player:new(10, 5)
 	background_render()
     loopGameMusic()
