@@ -6,17 +6,31 @@ import "CoreLibs/timer"
 
 
 local gfx <const> = playdate.graphics
+local DIALOGMAX <const> = 6
 local animationFrames = 30
 local textPlacement = {
     x= 10,
-    y= 150
+    y= 140
 }
 
 local shakeManager = {
-    animFrames = 16,
-    offsetIndex = 1,
-    offsetX = {1, 2, 1, 0, -1, 0, 1, 2, 1, 0, -1, -2, -1, 0, 1, 0},
-    offsetY = {-1, 0, -1, -2, -1, 0, -1, 0, -1, -2, -1, 0, 1, 2, 1, 0}
+    animFrames = 30,
+    offsetX = 0,
+    offsetY = 0
+}
+
+local typeWriterManager = {
+    subStr = {},
+    index = 1
+}
+
+local dialogIndex = 1
+local dialog = {
+    "Hello class, welcome to another class in Portals.\nWe will be picking up on where\nwe left last time...",
+    "Well as you now know cross- Wait... what are\nyou doing?",
+    "Hey don't cross the streams!",
+    "Did you hear me?? DON'T CROSS THEM!",
+    "I SAID..."
 }
 
 screenManager = {
@@ -28,22 +42,29 @@ screenManager = {
     }
 }
 
+gfx.setBackgroundColor(gfx.kColorBlack)
+gfx.clear()
+
 function playdate.update()
     if screenManager.currentScreen == screenManager.screens.INTRO then
         introScreen()
-        if buttonPressed() then screenManager.currentScreen = screenManager.screens.TITLE end
+        if (dialogIndex > DIALOGMAX and buttonPressed()) then screenManager.currentScreen = screenManager.screens.TITLE end
     elseif screenManager.currentScreen == screenManager.screens.TITLE and not playAnimation() then
-        gfx.drawText("Press any button...", 150, 200)
+        gfx.setImageDrawMode(gfx.kDrawModeCopy)
+        drawBg()
+        gfx.sprite.update()
+        gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
+        gfx.drawText("*Press any button...*", 140, 200)
         if buttonPressed() then screenManager.currentScreen = screenManager.screens.GAME end
-    end
+    end 
 
     gfx.sprite.update()
 end
 
 function playAnimation()
     if animationFrames == 0 then return false end 
-    
-    textPlacement.y -= 1
+
+    textPlacement.y -= 4
     
     title()
     
@@ -53,9 +74,35 @@ function playAnimation()
 end
 
 function introScreen()
-    background()
+    if (dialogIndex < DIALOGMAX) then
+        dialogBox()
+        gfx.sprite.update() 
 
-    title()    
+        gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
+        typeWriter(dialog[dialogIndex])
+
+        if (buttonPressed()) then
+            gfx.clear()
+            typeWriterSetUp()
+            dialogIndex += 1
+        end
+    else  
+        gfx.setImageDrawMode(gfx.kDrawModeCopy)
+        background()
+
+        title() 
+        dialogIndex += 1
+    end
+end
+
+function dialogBox()
+    local dialogBox = gfx.image.new("images/text_box")
+    dialogBox:draw(textPlacement.x, textPlacement.y)
+end
+
+function drawBg()
+    local dialogBox = gfx.image.new("images/startScreen")
+    dialogBox:draw(0, 0)
 end
 
 function background()
@@ -68,6 +115,7 @@ function background()
 			gfx.clearClipRect()
 		end
 	)
+    print(backgroundMage)
 end
 
 function title()
@@ -85,10 +133,36 @@ function title()
 end
 
 function shake()
-    playdate.display.setOffset(shakeManager.offsetX[shakeManager.offsetIndex], shakeManager.offsetY[shakeManager.offsetIndex])
+    playdate.display.setOffset(shakeManager.offsetX, shakeManager.offsetY)
 
-    shakeManager.offsetIndex += 1
+    if (shakeManager.animFrames > 2) then
+        shakeManager.offsetX = math.random(-6, 6)
+        shakeManager.offsetY = math.random(-6, 6)
+    else 
+        shakeManager.offsetX = 0
+        shakeManager.offsetY = 0
+    end
+
     shakeManager.animFrames -= 1
+end
+
+function typeWriterSetUp() 
+    typeWriterManager.subStr = {}
+    typeWriterManager.index = 1
+end
+
+function typeWriter(msg) 
+    if (typeWriterManager.index > string.len(msg)) then return true end
+
+    for i=1, typeWriterManager.index do
+        typeWriterManager.subStr[i] = msg:sub(i,i)
+    end
+
+    message = table.concat(typeWriterManager.subStr)
+
+    gfx.drawText(message, 20, 150)
+
+    typeWriterManager.index += 1
 end
 
 function buttonPressed()
