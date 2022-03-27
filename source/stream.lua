@@ -5,13 +5,13 @@ local gfx <const> = pd.graphics
 
 Stream = {}
 
-function Stream:new(portal_1, portal_2)
+function Stream:new(rune_1, rune_2)
     local stream = {}
     setmetatable(stream, self)
     self.__index = self
 
-    stream.portal_1 = portal_1
-    stream.portal_2 = portal_2
+    stream.rune_1 = rune_1
+    stream.rune_2 = rune_2
     stream.points = stream:getCurvePoints()
 	stream.active = true
 
@@ -20,12 +20,12 @@ end
 
 function Stream:getCurvePoints()
     ptsa = {
-        self.portal_1.x,
-        self.portal_1.y,
-		(self.portal_1.x + self.portal_2.x) / 2,
-		(self.portal_1.y + self.portal_2.y) / 2,
-        self.portal_2.x,
-        self.portal_2.y,
+        self.rune_1.portal.x,
+        self.rune_1.portal.y,
+		(self.rune_1.portal.x + self.rune_2.portal.x) / 2,
+		(self.rune_1.portal.y + self.rune_2.portal.y) / 2,
+        self.rune_2.portal.x,
+        self.rune_2.portal.y,
     }
 	tension = 0.5
 	numOfSegments = 16

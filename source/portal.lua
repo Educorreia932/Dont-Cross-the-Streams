@@ -51,8 +51,12 @@ end
 
 function Portal:removeRune()
     self.rune.sprite:remove()
+    self.rune.stream.active = false
+    
+    print("Rune " .. self.rune.i .. "removed from portal (".. self.x .. "," .. self.y .. ")")
+    print("Rune portals:" .. self.rune.stream.rune_1.portal.x, self.rune.stream.rune_1.portal.y, self.rune.stream.rune_2.portal.x, self.rune.stream.rune_2.portal.y)
+    
     self.rune = nil
-    self.stream.active = false
 end
 
 function Portal:addRune(rune)
@@ -65,26 +69,29 @@ function Portal:addRune(rune)
     rune.sprite:add()
 
     -- Update stream
-    local twin = self:getTwin()
+    self.rune = rune
 
-    if self == self.stream.portal_1 then
-        self.stream.portal_2 = rune.portal:getTwin()
+    print(rune.portal.x, rune.stream.rune_1.portal.x, rune.stream.rune_2.portal.x)
+    if rune.stream.rune_1.portal == rune.portal then
+        rune.stream.rune_1.portal = self
     else
-        self.stream.portal_1 = rune.portal:getTwin()
+        rune.stream.rune_2.portal = self
     end
-
-    self.stream.points = self.stream:getCurvePoints()
-    self:getTwin().stream = self.stream
-    self.stream.active = true
+    
+    rune.stream.points = rune.stream:getCurvePoints()
+    self:getTwin().rune.stream = rune.stream
+    rune.stream.active = true
 
     rune.portal = self
-    self.rune = rune
+    
+
+    print("Rune " .. self.rune.i .. "added to portal (".. self.x .. "," .. self.y .. ")")
 end
 
 function Portal:getTwin()
-	if self.stream.portal_1 == self then
-		return self.stream.portal_2
+	if self.rune.stream.rune_1.portal == self then
+		return self.rune.stream.rune_2.portal
     end
 
-	return self.stream.portal_1
+	return self.rune.stream.rune_1.portal
 end

@@ -49,7 +49,7 @@ function Player:update()
 
         playPortalSound()
 
-        if portal.stream.active then
+        if portal.rune.stream.active then
             -- Teleport player
             twin = portal:getTwin()
 

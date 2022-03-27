@@ -117,11 +117,12 @@ function map_render()
 
         map[x][y] = ACTIVE_PORTAL
 
-        if portal.stream == nil then
-            local stream = Stream:new(portal, portal.twin)
+        if portal.rune.stream == nil then
+            local stream = Stream:new(portal.rune, portal.twin.rune)
 
-            portal.stream = stream
-            portal.twin.stream = stream
+            portal.rune.stream = stream
+            portal.twin.rune.stream = stream
+            print("Stream:"..portal.rune.i, portal.twin.rune.i, portal.x, portal.y, portal.twin.x, portal.twin.y)
 
             table.insert(streams, stream)
         end
