@@ -24,7 +24,7 @@ function Player:new(x, y)
     return player
 end
 
-function Player:movement()
+function Player:update()
     new_x = self.x
     new_y = self.y
 
@@ -36,28 +36,42 @@ function Player:movement()
         new_x = self.x - 1  
     elseif playdate.buttonJustPressed(playdate.kButtonRight) then
         new_x = self.x + 1  
+    elseif playdate.buttonJustPressed(playdate.kButtonA) then
+        self:interact()
+
+        return
     end
 
     local block = detect_collision(new_x, new_y)
 
-    print(self.x, self.y)
-
     if block == ACTIVE_PORTAL then
         local portal = find_portal(new_x, new_y)
-        print(portal)
+
         playPortalSound()
 
-        self.x = portal.twin.x - 1
-        self.y = portal.twin.y
+        -- TODO: Create a portal method for this?
+        self.x = portal.twin.x + portal.twin.player_direction.x
+        self.y = portal.twin.y + portal.twin.player_direction.y
     elseif block ~= WALL then
         self.x = new_x
         self.y = new_y
     end
 
-    if camera_offset.x.free_roam or camera_offset.y.free_roam then
-        self.sprite:moveTo(screen.tileSize * self.x, screen.tileSize * self.y)
-    end
-
     camera_movement()
 end
 
+function Player:interact() 
+    for i=1, #portals do
+        local portal = portals[i]
+
+        if portal.rune ~= nil then
+            local rune = portal.rune
+
+            if rune.x + portal.player_direction.x == self.x and rune.y + portal.player_direction.y == self.y then
+                player.holding_rune = rune
+
+                rune:remove()
+            end
+        end
+    end
+end

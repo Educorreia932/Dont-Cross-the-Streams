@@ -7,39 +7,37 @@ local gfx <const> = pd.graphics
 
 local map = {}
 local rooms = {
-
+    {3, 2, 6, 10},
+    {9, 2, 5, 5}
 }
+
+backgroundImage = gfx.image.new("images/lvl1_map")
 
 portals = {
-    Portal:new(14, 4, false),
-    Portal:new(6, 12, true),
-    Portal:new(26, 13, false),
-    Portal:new(26, 13, false),
-    Portal:new(26, 38, false),
-    Portal:new(21, 42, true),
-    Portal:new(20, 31, true),
-    Portal:new(16, 26, false)
+    Portal:new(14, 4, {-1, 0}, {0, 1}, 1),
+    Portal:new(6, 12, {0, -1}, {1, 0}, 2),
+    Portal:new(12, 25, {1, 0}, {0, 1}, 3),
+    Portal:new(24, 25, {-1, 0}, {0, 1}, 4),
+    Portal:new(36, 25, {1, 0}, {0, 1}, 5),
+    Portal:new(40, 20, {0, 1}, {1, 0}, 6),
+    Portal:new(39, 10, {0, -1}, {1, 0}, 7),
+    Portal:new(35, 5, {1, 0}, {0, 1}, 8)
 }
 
-runes = {
-    Rune:new(14, 5, 1),
-    Rune:new(7, 12, 2),
-    Rune:new(26, 14, 3),
-    Rune:new(26, 14, 4),
-    Rune:new(14, 5, 5),
-    Rune:new(14, 5, 6),
-    Rune:new(14, 5, 7)
-}
+portals[1]:setTwin(portals[3])
+portals[2]:setTwin(portals[5])
+portals[4]:setTwin(portals[7])
+portals[6]:setTwin(portals[8])
 
-portals[1]:setTwin(portals[2])
+streams = {}
 
 camera_offset = {
     x = {
-        value = -8,
+        value = 0,
         free_roam = false
     },
     y = {
-        value = -8,
+        value = 0,
         free_roam = false
     }
 }
@@ -49,7 +47,7 @@ function background_render()
 end
 
 function detect_collision(x, y)   
-    if x < 0 or x > 25 or y < 0 or y > 15 then
+    if x < 0 or x > 50 or y < 0 or y > 30 then
         return VOID
     end
 
@@ -109,6 +107,7 @@ function map_render()
         local y = portal.y
 
         map[x][y] = ACTIVE_PORTAL
+        streams[i] = Stream:new(portal, portal.twin)
     end
 end
 
@@ -123,27 +122,8 @@ function find_portal(x, y)
 end
 
 function camera_movement()
-    camera_offset.x.value = player.x * screen.tileSize
-    camera_offset.y.value = player.y * screen.tileSize
-
-    -- if camera_offset.x.value >= 352 or camera_offset.x.value < 0 then
-    --     camera_offset.x.free_roam = true
-    --     if (camera_offset.x.value > 352) then camera_offset.x.value = 352 end
-    --     if (camera_offset.x.value < 0) then camera_offset.x.value = 0 end
-    -- else 
-    --     camera_offset.x.free_roam = false 
-    -- end
-
-    -- camera_offset.y.value = player.y*screen.tileSize
-    -- if camera_offset.y.value >= 240 or camera_offset.y.value < 0 then
-    --     camera_offset.y.free_roam = true
-    --     if (camera_offset.y.value > 240) then camera_offset.y.value = 240 end
-    --     if (camera_offset.y.value < 0) then camera_offset.y.value = 0 end
-    -- else 
-    --     camera_offset.y.free_roam = false 
-    -- end
-
-    local backgroundImage = gfx.image.new("images/lvl1_map")
+    camera_offset.x.value = (player.x - 10) * screen.tileSize
+    camera_offset.y.value = (player.y - 5) * screen.tileSize
 
     gfx.sprite.setBackgroundDrawingCallback(
 		function(x, y, width, height)
