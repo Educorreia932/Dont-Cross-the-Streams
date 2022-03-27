@@ -121,7 +121,7 @@ function Stream:draw()
 end 
 
 function on_segment(p, q, r)
-    if q[0] <= max(p[0], r[0]) and q[0] >= min(p[0], r[0]) and q[1] <= max(p[1], r[1]) and q[1] >= min(p[1], r[1]) then
+    if q[1] <= math.max(p[1], r[1]) and q[1] >= math.min(p[1], r[1]) and q[2] <= math.max(p[2], r[2]) and q[2] >= math.min(p[2], r[2]) then
         return True
 	end
 
@@ -129,7 +129,7 @@ function on_segment(p, q, r)
 end
 
 function orientation(p, q, r)
-    local val = ((q[1] - p[1]) * (r[0] - q[0]) - (q[0] - p[0]) * (r[1] - q[1]))
+    local val = ((q[2] - p[2]) * (r[1] - q[1]) - (q[1] - p[1]) * (r[2] - q[2]))
 
     if val == 0 then
         return 0  -- Colinear
@@ -185,10 +185,10 @@ function Stream:intersects(stream)
 			local x2 = self.points[i + 2]
 			local y2 = self.points[i + 3] 
 
-			local x3 = self.points[j]
-			local y3 = self.points[j + 1]
-			local x4 = self.points[j + 2]
-			local y4 = self.points[j + 3] 
+			local x3 = stream.points[j]
+			local y3 = stream.points[j + 1]
+			local x4 = stream.points[j + 2]
+			local y4 = stream.points[j + 3] 
 
 			if intersect({x1, y1}, {x2, y2}, {x3, y3}, {x4, y4}) then
 				return true

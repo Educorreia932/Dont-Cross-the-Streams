@@ -53,9 +53,6 @@ function Portal:removeRune()
     self.rune.sprite:remove()
     self.rune.stream.active = false
     
-    print("Rune " .. self.rune.i .. "removed from portal (".. self.x .. "," .. self.y .. ")")
-    print("Rune portals:" .. self.rune.stream.rune_1.portal.x, self.rune.stream.rune_1.portal.y, self.rune.stream.rune_2.portal.x, self.rune.stream.rune_2.portal.y)
-    
     self.rune = nil
 end
 
@@ -71,7 +68,6 @@ function Portal:addRune(rune)
     -- Update stream
     self.rune = rune
 
-    print(rune.portal.x, rune.stream.rune_1.portal.x, rune.stream.rune_2.portal.x)
     if rune.stream.rune_1.portal == rune.portal then
         rune.stream.rune_1.portal = self
     else
@@ -83,9 +79,6 @@ function Portal:addRune(rune)
     rune.stream.active = true
 
     rune.portal = self
-    
-
-    print("Rune " .. self.rune.i .. "added to portal (".. self.x .. "," .. self.y .. ")")
 end
 
 function Portal:getTwin()

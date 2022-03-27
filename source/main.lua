@@ -15,6 +15,7 @@ import "stream"
 local gfx <const> = playdate.graphics
 
 local function initalize()
+	print(intersect({0, 0}, {10, 10}, {0, 10}, {10, 0}))
 	player = Player:new(10, 5)
 	background_render()
     loopGameMusic()
@@ -25,7 +26,6 @@ end
 initalize()
 
 function playdate.update()
-	
 	player:update()
 
 	gfx.setDrawOffset(-camera_offset.x.value, -camera_offset.y.value)
@@ -36,4 +36,16 @@ function playdate.update()
 
 		stream:draw()
 	end
+end
+
+function checkStreams()
+	for _, s1 in pairs(streams) do
+		for _, s2 in pairs(streams) do
+			if s1:intersects(s2) then
+				return true
+			end
+		end
+	end
+
+	return false
 end
