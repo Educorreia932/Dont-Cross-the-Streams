@@ -65,8 +65,7 @@ gfx.clear()
 
 function playdate.update()
     gfx.sprite.update()
-
-    loopTitleScreenMusic()
+    playBackgroundMusic()
 
     if screenManager.currentScreen == screenManager.screens.INTRO then
         introScreen()
@@ -88,7 +87,6 @@ function playdate.update()
 
         roomsInitialize()
         background_render()
-        loopGameMusic()
         
         gfx.setLineWidth(2)
 
