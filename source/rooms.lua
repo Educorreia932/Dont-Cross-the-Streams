@@ -5,8 +5,9 @@ import "rune"
 local pd <const> = playdate
 local gfx <const> = pd.graphics
 
-local map = {}
-local rooms = {
+function roomsInitialize()
+    map = {}
+    rooms = {
     -- room 1
     {3, 2, 6, 10},
     {9, 2, 5, 5},
@@ -50,6 +51,8 @@ camera_offset = {
         free_roam = false
     }
 }
+
+end
 
 function background_render()
     map_render()
@@ -146,8 +149,12 @@ function camera_movement()
 		function(x, y, width, height)
 			gfx.setClipRect(x, y, width, height)
             gfx.setDrawOffset(-camera_offset.x.value, -camera_offset.y.value)
-			backgroundImage:draw(-8, -8)
+			gfx.clear()
+            gfx.sprite.redrawBackground()
+            backgroundImage:draw(-8, -8)
 			gfx.clearClipRect()
 		end
 	)
 end
+
+
