@@ -94,6 +94,12 @@ function Player:interact()
                 player.holding_rune = portal.rune
                 portal:removeRune()
             end
+
+            if checkStreams() then
+                gfx.clear(gfx.kColorBlack)
+                gfx.sprite.removeAll()
+                screenManager.currentScreen = screenManager.screens.ENDING 
+            end
         end
     end
 end

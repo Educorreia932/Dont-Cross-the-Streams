@@ -96,10 +96,8 @@ function playdate.update()
     elseif screenManager.currentScreen == screenManager.screens.GAME then
         gameManager()
     elseif screenManager.currentScreen == screenManager.screens.ENDING then
-        gfx.setImageDrawMode(gfx.kDrawModeCopy)
         endingScreen()
     end 
-    
 end
 
 function playTitleAnimation()
@@ -147,11 +145,14 @@ function introScreen()
 end
 
 function endingScreen() 
+    textPlacement.x = 50
+    textPlacement.y = 140
+
     if (endingDialogIndex < ENDING_DIALOG_MAX) then
         animationFrames = 30
 
-        dialogBox()
         gfx.sprite.update() 
+        dialogBox()
 
         gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
         typeWriter(endDialog[endingDialogIndex])
@@ -164,6 +165,7 @@ function endingScreen()
     else
         local endingImage = gfx.image.new("images/wizarding_school_background")
 
+        gfx.setImageDrawMode(gfx.kDrawModeCopy)
         gfx.sprite.setBackgroundDrawingCallback(
             function(x, y, width, height)
                 gfx.setClipRect(x, y, width, height)
@@ -258,7 +260,7 @@ function typeWriter(msg)
 
     message = table.concat(typeWriterManager.subStr)
 
-    gfx.drawText(message, 20, 150)
+    gfx.drawText(message, textPlacement.x + 10, 150)
 
     typeWriterManager.index += 1
 end

@@ -22,8 +22,10 @@ function Stream:getCurvePoints()
     ptsa = {
         self.rune_1.portal.x,
         self.rune_1.portal.y,
-		(self.rune_1.portal.x + self.rune_2.portal.x) / 2,
-		(self.rune_1.portal.y + self.rune_2.portal.y) / 2,
+		(self.rune_1.portal.x + self.rune_2.portal.x) / 2 - 1.5,
+		(self.rune_1.portal.y + self.rune_2.portal.y) / 2 + 1.5,
+		(self.rune_1.portal.x + self.rune_2.portal.x) / 2 + 1.5,
+		(self.rune_1.portal.y + self.rune_2.portal.y) / 2 - 1.5,
         self.rune_2.portal.x,
         self.rune_2.portal.y,
     }
@@ -122,10 +124,10 @@ end
 
 function on_segment(p, q, r)
     if q[1] <= math.max(p[1], r[1]) and q[1] >= math.min(p[1], r[1]) and q[2] <= math.max(p[2], r[2]) and q[2] >= math.min(p[2], r[2]) then
-        return True
+        return true
 	end
 
-    return False
+    return false
 end
 
 function orientation(p, q, r)
@@ -178,22 +180,21 @@ function intersect(p1, q1, p2, q2)
 end
 
 function Stream:intersects(stream)
-	for i = 1, #self.points - 4, 2 do
-		for j = 1, #stream.points - 4, 2 do
-			local x1 = self.points[i]
-			local y1 = self.points[i + 1]
-			local x2 = self.points[i + 2]
-			local y2 = self.points[i + 3] 
+	local x1 = self.points[1]
+	local y1 = self.points[2]
+	local x2 = self.points[#self.points - 1]
+	local y2 = self.points[#self.points] 
 
-			local x3 = stream.points[j]
-			local y3 = stream.points[j + 1]
-			local x4 = stream.points[j + 2]
-			local y4 = stream.points[j + 3] 
+	local x3 = stream.points[1]
+	local y3 = stream.points[2]
+	local x4 = stream.points[#stream.points - 1]
+	local y4 = stream.points[#stream.points] 
 
-			if intersect({x1, y1}, {x2, y2}, {x3, y3}, {x4, y4}) then
-				return true
-			end
-		end
+	print(x1, y1, x2, y2)
+	print(x3, y3, x4, y4)
+
+	if intersect({x1, y1}, {x2, y2}, {x3, y3}, {x4, y4}) then
+		return true
 	end
 
 	return false
