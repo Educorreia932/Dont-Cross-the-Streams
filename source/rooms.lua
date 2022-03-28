@@ -8,50 +8,49 @@ local gfx <const> = pd.graphics
 function roomsInitialize()
     map = {}
     rooms = {
-    -- room 1
-    {3, 2, 6, 10},
-    {9, 2, 5, 5},
-    -- room 2
-    {35, 2, 7, 8},
-    -- room 3
-    {12, 23, 3, 5},
-    {15, 19, 6, 9},
-    {21, 23, 3, 5},
-    -- room 4
-    {36, 20, 8, 7}
-}
-
-backgroundImage = gfx.image.new("images/lvl1_map")
-
-portals = {
-    Portal:new(14, 4, {-1, 0}, {0, 1}, 1),
-    Portal:new(6, 12, {0, -1}, {1, 0}, 2),
-    Portal:new(12, 25, {1, 0}, {0, 1}, 3),
-    Portal:new(24, 25, {-1, 0}, {0, 1}, 4),
-    Portal:new(36, 25, {1, 0}, {0, 1}, 5),
-    Portal:new(40, 20, {0, 1}, {1, 0}, 6),
-    Portal:new(39, 10, {0, -1}, {1, 0}, 7),
-    Portal:new(35, 5, {1, 0}, {0, 1}, 8)
-}
-
-portals[1]:setTwin(portals[3])
-portals[2]:setTwin(portals[5])
-portals[4]:setTwin(portals[7])
-portals[6]:setTwin(portals[8])
-
-streams = {}
-
-camera_offset = {
-    x = {
-        value = 0,
-        free_roam = false
-    },
-    y = {
-        value = 0,
-        free_roam = false
+        -- room 1
+        {3, 2, 6, 10},
+        {9, 2, 5, 5},
+        -- room 2
+        {35, 2, 7, 8},
+        -- room 3
+        {12, 23, 3, 5},
+        {15, 19, 6, 9},
+        {21, 23, 3, 5},
+        -- room 4
+        {36, 20, 8, 7}
     }
-}
 
+    backgroundImage = gfx.image.new("images/lvl1_map")
+
+    portals = {
+        Portal:new(14, 4, {-1, 0}, {0, 1}, 1),
+        Portal:new(6, 12, {0, -1}, {1, 0}, 2),
+        Portal:new(12, 25, {1, 0}, {0, 1}, 3),
+        Portal:new(24, 25, {-1, 0}, {0, 1}, 4),
+        Portal:new(36, 25, {1, 0}, {0, 1}, 5),
+        Portal:new(40, 20, {0, 1}, {1, 0}, 6),
+        Portal:new(39, 10, {0, -1}, {1, 0}, 7),
+        Portal:new(35, 5, {1, 0}, {0, 1}, 8)
+    }
+
+    portals[1]:setTwin(portals[3])
+    portals[2]:setTwin(portals[5])
+    portals[4]:setTwin(portals[7])
+    portals[6]:setTwin(portals[8])
+
+    streams = {}
+
+    camera_offset = {
+        x = {
+            value = 0,
+            free_roam = false
+        },
+        y = {
+            value = 0,
+            free_roam = false
+        }
+    }
 end
 
 function background_render()

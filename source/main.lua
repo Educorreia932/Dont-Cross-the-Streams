@@ -41,6 +41,7 @@ local dialog = {
     "Did you hear me?? DON'T CROSS THEM!",
     "I SAID..."
 }
+
 local endDialog = {
     "Finally, the runes are where they belong...",
     "Now that streams are not crossing, lets resume\nthe class...",
@@ -63,25 +64,33 @@ gfx.setBackgroundColor(gfx.kColorBlack)
 gfx.clear()
 
 function playdate.update()
+    gfx.sprite.update()
+
     loopTitleScreenMusic()
 
     if screenManager.currentScreen == screenManager.screens.INTRO then
         introScreen()
-        if (dialogIndex > DIALOGMAX and buttonPressed()) then screenManager.currentScreen = screenManager.screens.TITLE end
+
+        if (dialogIndex > DIALOGMAX and buttonPressed()) then 
+            screenManager.currentScreen = screenManager.screens.TITLE 
+        end
     elseif screenManager.currentScreen == screenManager.screens.TITLE and not playTitleAnimation() then
         drawBg()
         gfx.sprite.update()
+
         if buttonPressed() then 
             textImage:clear(gfx.kColorClear)
             startTextImage:clear(gfx.kColorClear)
-            screenManager.currentScreen = screenManager.screens.GAME_START end
+            screenManager.currentScreen = screenManager.screens.GAME_START 
+        end
     elseif screenManager.currentScreen == screenManager.screens.GAME_START then
         player = Player:new(10, 5)
+
         roomsInitialize()
         background_render()
         loopGameMusic()
+        
         gfx.setLineWidth(2)
-        gfx.sprite.update()
 
         screenManager.currentScreen = screenManager.screens.GAME
     elseif screenManager.currentScreen == screenManager.screens.GAME then
@@ -90,7 +99,7 @@ function playdate.update()
         gfx.setImageDrawMode(gfx.kDrawModeCopy)
         endingScreen()
     end 
-    gfx.sprite.update()
+    
 end
 
 function playTitleAnimation()
@@ -123,10 +132,12 @@ function introScreen()
         end
     else  
         stopTitleScreenMusic()
+        
         if explosionSound == 0 then 
             playEnragedWizardSound()
             explosionSound = 1
         end
+
         gfx.setImageDrawMode(gfx.kDrawModeCopy)
         background()
 
@@ -151,19 +162,20 @@ function endingScreen()
             endingDialogIndex += 1
         end
     else
-        print("here")
         local endingImage = gfx.image.new("images/wizarding_school_background")
 
         gfx.sprite.setBackgroundDrawingCallback(
-		function(x, y, width, height)
-			gfx.setClipRect(x, y, width, height)
-			if animationFrames > 0 then
-                endingImage:drawFaded(0, 0, 1/animationFrames, gfx.image.kDitherTypeDiagonalLine)
-            else
-                endingImage:draw(0,0)
+            function(x, y, width, height)
+                gfx.setClipRect(x, y, width, height)
+                
+                if animationFrames > 0 then
+                    endingImage:drawFaded(0, 0, 1/animationFrames, gfx.image.kDitherTypeDiagonalLine)
+                else
+                    endingImage:draw(0,0)
+                end
+
+                gfx.clearClipRect()
             end
-			gfx.clearClipRect()
-		end
 	    )
 
         animationFrames -= 1
