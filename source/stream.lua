@@ -190,9 +190,6 @@ function Stream:intersects(stream)
 	local x4 = stream.points[#stream.points - 1]
 	local y4 = stream.points[#stream.points] 
 
-	print(x1, y1, x2, y2)
-	print(x3, y3, x4, y4)
-
 	if intersect({x1, y1}, {x2, y2}, {x3, y3}, {x4, y4}) then
 		return true
 	end

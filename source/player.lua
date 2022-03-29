@@ -79,6 +79,19 @@ function Player:interact()
 
             -- Player is holding rune
             if player.holding_rune ~= nil then
+                -- Check if origin and destination of the stream are the same
+                if player.holding_rune.stream.rune_1 == player.holding_rune then
+                    originating_portal = player.holding_rune.stream.rune_2.portal
+                else
+                    originating_portal = player.holding_rune.stream.rune_1.portal
+                end
+
+                local destination_portal = portal
+
+                if originating_portal == destination_portal then
+                    return
+                end
+
                 -- Replace portal's rune
                 local portal_rune = portal.rune
 
@@ -88,13 +101,13 @@ function Player:interact()
 
                 portal:addRune(player.holding_rune)
                 player.holding_rune = portal_rune
-
             -- Player is not holding rune
             else
                 player.holding_rune = portal.rune
                 portal:removeRune()
             end
 
+            -- Check if any streams cross
             if checkStreams() then
                 gfx.clear(gfx.kColorBlack)
                 gfx.sprite.removeAll()
