@@ -1,4 +1,4 @@
-import "AnimatedSprite/AnimatedSprite.lua"
+import "lib/AnimatedSprite/AnimatedSprite.lua"
 import "const"
 import "music"
 import "player"
